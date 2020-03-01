@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 
 class UserController extends Controller
 {
@@ -10,11 +14,6 @@ class UserController extends Controller
     public function editarUsuarioPropio(){
         return view("user.editarUsuarioPropio");
     }
-
-    public function cambiarAvatar(){
-        return view("user.cambiarAvatar");
-    }
-    
     public function update(Request $request){
         $user=\Auth::user();
         $id=$user->id;
@@ -33,16 +32,27 @@ class UserController extends Controller
         $usuario=$request->input("usuario");
         $email=$request->input("email");
         $password=$request->input("password");
+        $image_path=$request->file('image_path');
 
-        var_dump($name);
+        /* var_dump($name);
         var_dump($usuario);
         var_dump($email);
         var_dump($password);
+        var_dump($image_path);
+        die(); */
         // 3.- Se asigna nuevos valores al objeto Usuario
         $user->name=$name;
         $user->usuario=$usuario;
         $user->email=$email;
         $user->password=bcrypt($password);
+
+        // Asignamos la imagen
+        if($image_path){
+            $image_path_name=time().$image_path->getClientOriginalName();
+
+            Storage::disk("users")->put($image_path_name,File::get($image_path));
+            $user->imagen=$image_path_name;
+        }
 
         // 4.- Se ejecuta la consulta en la BD
         $user->update();
@@ -51,4 +61,8 @@ class UserController extends Controller
         ->with(["message"=>"Usuario actualizado correctamente!"]);
     }
     
+    public function getImage($filename){
+        $file=Storage::disk("users")->get($filename);
+        return new Response($file,200);
+    }
 }

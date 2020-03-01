@@ -26,7 +26,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Rutas del controlador Usuario
 Route::get("/editarUsuarioPropio","UserController@editarUsuarioPropio")->name("editarUsuarioPropio");
+Route::get("/user/avatar/{filename}", "UserController@getImage")->name("user.avatar");
 Route::post("/user/update", "UserController@update")->name("user.update");
+
 
 Route::get("/listarUsuarios", function(){
     return view("alguna");

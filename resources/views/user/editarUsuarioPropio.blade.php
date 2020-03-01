@@ -11,9 +11,15 @@
                 <div class="card-header">{{ __('Editar datos') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('user.update') }}">
+                    <form method="POST" action="{{ route('user.update') }}" enctype="multipart/form-data">
                         @csrf
 
+                        {{-- <div class="form-group row">
+                            @if(Auth::user()->imagen)
+                                <img src=" {{route('user.avatar', ['filename'=>Auth::user()->imagen]) }}" class="avatar">
+                            @endif
+                        </div> --}}
+                        
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
@@ -77,7 +83,18 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
-
+                        <div class="form-group row">
+                            <label for="file" class="col-md-4 col-form-label text-md-right">{{ __('Avatar') }}</label>
+                            <div class="col-md-6">
+                                <input type="file" id="image_path" class="form-control" {{$errors->has("image_path")?"is-invalid":""}} name="image_path" required>
+                                @if ($errors->has("image_path"))
+                                    <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first("image_path")}}</strong>
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                       
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
