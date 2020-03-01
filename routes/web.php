@@ -34,3 +34,6 @@ Route::get("/listarUsuarios", function(){
     return view("alguna");
 });
 
+Route::post('/incidencias/save', 'IncidenciaController@save')->name('incidencias.save');
+
+Route::get('/incidencias/crear', 'IncidenciaController@crear')->name('incidencias.crear');

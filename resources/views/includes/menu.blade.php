@@ -24,9 +24,21 @@
                 </div>
             </li>
             <li class="list-group-item">
-                <a href="">
-                    Usuarios
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                    Incidencias
                 </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a href="{{route('incidencias.crear')}}" class="dropdown-item">Crear incidencia</a>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                        {{__('Logout') }}
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
             </li>
             <li class="list-group-item">
                 <a href="">
