@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+use App\User;
 
 
 class UserController extends Controller
@@ -64,5 +66,19 @@ class UserController extends Controller
     public function getImage($filename){
         $file=Storage::disk("users")->get($filename);
         return new Response($file,200);
+    }
+
+    public function listado(){
+
+        /* $users= DB::select('select * from users')->paginate(1);; */
+        $users=User::paginate(2);
+        /* var_dump($users);
+        die(); */
+        return view("user.listado", ['users'=>$users]);
+    }
+
+    public function detalle($id){
+        $user=array_first(DB::select("select * from users where id=:id", ["id"=>$id] ));
+        return view("user.detalle", ["user"=>$user]);
     }
 }

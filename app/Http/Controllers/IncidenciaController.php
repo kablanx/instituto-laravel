@@ -39,6 +39,9 @@ class IncidenciaController extends Controller
         $incidencia->descripcion=$descripcion;
         $incidencia->gravedad=$importancia;
         
+        /* var_dump($incidencia);
+        die();
+         */
         $incidencia->save();
         return redirect()->route("incidencias.crear")
         ->with(["message"=>"Incidencia enviada correctamente!"]);

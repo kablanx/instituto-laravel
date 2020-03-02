@@ -28,6 +28,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get("/editarUsuarioPropio","UserController@editarUsuarioPropio")->name("editarUsuarioPropio");
 Route::get("/user/avatar/{filename}", "UserController@getImage")->name("user.avatar");
 Route::post("/user/update", "UserController@update")->name("user.update");
+Route::get("/user/listado", "UserController@listado")->name("user.listado");
+/* Route::get("/") */
 
 
 Route::get("/listarUsuarios", function(){
@@ -35,5 +37,4 @@ Route::get("/listarUsuarios", function(){
 });
 
 Route::post('/incidencias/save', 'IncidenciaController@save')->name('incidencias.save');
-
 Route::get('/incidencias/crear', 'IncidenciaController@crear')->name('incidencias.crear');
