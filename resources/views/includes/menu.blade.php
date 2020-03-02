@@ -1,5 +1,5 @@
 <div class="card">
-    <div class="card-header">
+    <div class="card-header ">
         Menú
     </div>
     <div class="card-body">
@@ -12,7 +12,6 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a href="{{route('user.listado')}}" class="dropdown-item">Listado</a>
-                    
                 </div>
             </li>
             <li class="list-group-item">

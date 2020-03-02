@@ -16,6 +16,53 @@ class UserController extends Controller
     public function editarUsuarioPropio(){
         return view("user.editarUsuarioPropio");
     }
+
+    public function editarUsuario($id){
+        $user=array_first(DB::select("select * from users where id=:id", ["id"=>$id] ));
+        return view("user.editarUsuario", ["user"=>$user]);
+    }
+
+    public function detalle($id){
+        $user=array_first(DB::select("select * from users where id=:id", ["id"=>$id] ));
+        return view("user.detalle", ["user"=>$user]);
+    }
+
+    public function updateUsuario(Request $request){
+
+        $id=$request->input("id_usuario");
+
+        /* var_dump($id);
+        die(); */
+
+        $validate=$this->validate($request, [
+            'name' => ['required', 'string', 'max:255'],
+            // Aplicando la siguiente regla lo que conseguimos es permitir mantener los mismos valores en dichos campos
+            'email' => /* "required|string|max:255|unique:users,email,".$id, */['required', 'string', 'email', 'max:255', 'unique:users,email,'.$id],
+            "usuario"=>["required", "string", "min:8", "max:12", 'unique:users,usuario,'.$id ],
+            'password' => ['required', 'string', 'min:6', 'confirmed']
+        ]);
+
+       
+        $name=$request->input("name");
+        $usuario=$request->input("usuario");
+        $email=$request->input("email");
+        $password=$request->input("password");
+        $rol=$request->input("rol");
+        $fecha = new \DateTime();
+        $fecha->format('d-m-Y H:i:s');
+
+        DB::update("Update users SET name=:name, usuario=:usuario, email=:email, password=:password, updated_at=:fecha, rol=:rol WHERE id=:id",[
+            "id"=>$id,
+            "name"=>$name,
+            "usuario"=>$usuario,
+            "email"=>$email,
+            "password"=>$password,
+            "fecha"=>$fecha,
+            "rol"=>$rol,
+        ]);
+        \Session::flash("status", "Usuario editado correctamente!!");
+        return redirect()->action("UserController@listado");
+    }
     public function update(Request $request){
         $user=\Auth::user();
         $id=$user->id;
@@ -77,8 +124,10 @@ class UserController extends Controller
         return view("user.listado", ['users'=>$users]);
     }
 
-    public function detalle($id){
-        $user=array_first(DB::select("select * from users where id=:id", ["id"=>$id] ));
-        return view("user.detalle", ["user"=>$user]);
+    public function eliminar($id){
+        $user=DB::delete("delete from users where id=:id", ["id"=>$id]);
+        \Session::flash("status", "Usuario borrado correctamente!");
+        return redirect()->action("UsuarioController@listado");
     }
+    
 }

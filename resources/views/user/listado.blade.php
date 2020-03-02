@@ -7,6 +7,9 @@
         <div class="card-header">Listado de usuarios!</div>
 
         <div class="card-body">
+            @if(session("status"))
+            <div class="alert alert-success">{{session("status")}}</div>
+            @endif
             <table class="table table-striped text-center">
                 <tr>
                     <th>Nombre</th>
@@ -26,7 +29,7 @@
                     <td>{{$user->rol}}</td>
                     <td>{{$user->updated_at}}</td>
                     @if(Auth::user()->rol=="administrador")
-                    <td><a href="">Detalles</a> <a href="">Editar</a> <a href="">Eliminar</a></td>
+                    <td><a href="{{route("user.detalles",["id"=>$user->id])}}">Detalles</a> <a href="{{route("user.editarUsuario",["id"=>$user->id])}}">Editar</a> <a href="{{route("user.detalles",["id"=>$user->id])}}">Eliminar</a></td>
                     @endif
                 </tr>
                 @endforeach

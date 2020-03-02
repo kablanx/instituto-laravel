@@ -25,11 +25,14 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 // Rutas del controlador Usuario
-Route::get("/editarUsuarioPropio","UserController@editarUsuarioPropio")->name("editarUsuarioPropio");
+Route::get("/user/editarUsuarioPropio","UserController@editarUsuarioPropio")->name("editarUsuarioPropio");
+Route::get("/user/editarUsuario/{id}","UserController@editarUsuario")->name("user.editarUsuario");
 Route::get("/user/avatar/{filename}", "UserController@getImage")->name("user.avatar");
-Route::post("/user/update", "UserController@update")->name("user.update");
 Route::get("/user/listado", "UserController@listado")->name("user.listado");
-/* Route::get("/") */
+Route::get("/user/detalles/{id}", "UserController@detalle")->name("user.detalles");
+
+Route::post("/user/updateUsuario", "UserController@updateUsuario")->name("user.updateUsuario");
+Route::post("/user/update", "UserController@update")->name("user.update");
 
 
 Route::get("/listarUsuarios", function(){
