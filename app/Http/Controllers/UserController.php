@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use Illuminate\Http\RedirectResponse;
 
 
 class UserController extends Controller
@@ -46,12 +47,15 @@ class UserController extends Controller
         $name=$request->input("name");
         $usuario=$request->input("usuario");
         $email=$request->input("email");
+
         $password=$request->input("password");
+        $password=bcrypt($password);
+
         $rol=$request->input("rol");
         $fecha = new \DateTime();
         $fecha->format('d-m-Y H:i:s');
 
-        DB::update("Update users SET name=:name, usuario=:usuario, email=:email, password=:password, updated_at=:fecha, rol=:rol WHERE id=:id",[
+        $true=DB::update("Update users SET name=:name, usuario=:usuario, email=:email, password=:password, updated_at=:fecha, rol=:rol WHERE id=:id",[
             "id"=>$id,
             "name"=>$name,
             "usuario"=>$usuario,
@@ -60,8 +64,16 @@ class UserController extends Controller
             "fecha"=>$fecha,
             "rol"=>$rol,
         ]);
+
+        if($true){
+            DB::table('logs')->insert(array('id_usuario'=>\Auth::user()->id,
+            'descripcion'=>'Ha editado un usuario',
+            'created_at' =>date('Y-m-d H:i:s') )
+            );
+        }
+
         \Session::flash("status", "Usuario editado correctamente!!");
-        return redirect()->action("UserController@listado");
+        return redirect()->action("UserController@listado", ["regsxpag" => 2]);
     }
     public function update(Request $request){
         $user=\Auth::user();
@@ -115,19 +127,25 @@ class UserController extends Controller
         return new Response($file,200);
     }
 
-    public function listado(){
-
+    public function listado($regsxpag){
         /* $users= DB::select('select * from users')->paginate(1);; */
-        $users=User::paginate(2);
+        $users=User::paginate($regsxpag);
         /* var_dump($users);
         die(); */
         return view("user.listado", ['users'=>$users]);
     }
 
     public function eliminar($id){
-        $user=DB::delete("delete from users where id=:id", ["id"=>$id]);
+        $true=DB::delete("delete from users where id=:id", ["id"=>$id]);
+
+        if($true){
+            DB::table('logs')->insert(array('id_usuario'=>\Auth::user()->id,
+            'descripcion'=>'Ha eliminado un usuario',
+            'created_at' =>date('Y-m-d H:i:s') )
+            );
+        }
         \Session::flash("status", "Usuario borrado correctamente!");
-        return redirect()->action("UsuarioController@listado");
+        return redirect()->action("UserController@listado",["regsxpag" => 2]);
     }
     
 }

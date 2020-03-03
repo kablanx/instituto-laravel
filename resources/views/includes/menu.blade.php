@@ -11,7 +11,7 @@
                     Usuarios
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a href="{{route('user.listado')}}" class="dropdown-item">Listado</a>
+                    <a href="{{route('user.listado',['regsxpag'=>2])}}" class="dropdown-item">Listado</a>
                 </div>
             </li>
             <li class="list-group-item">
@@ -20,11 +20,7 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <a href="{{route('incidencias.crear')}}" class="dropdown-item">Crear incidencia</a>
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
-                                     document.getElementById('logout-form').submit();">
-                        {{__('Logout') }}
-                    </a>
+                    <a href="{{route('incidencias.listado', ['regsxpag'=>2])}}" class="dropdown-item">Listado</a>
 
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -33,14 +29,16 @@
             </li>
             <li class="list-group-item">
                 <a href="">
-                    Incidencias
+                    Mensajes
                 </a>
             </li>
+            @if(Auth::user()->rol=="administrador")
             <li class="list-group-item">
-                <a href="">
+            <a href="{{ route('logs.listado', ['regsxpag'=>7])}}">
                     Logs
                 </a>
             </li>
+            @endif
 
             @else
             {{-- <li class="list-group-item">
