@@ -5,7 +5,7 @@
 <div class="container">
     <div class="card">
         <div class="card-header">
-            Listado de usuarios!
+            Listado de mensajes!
             <select id="regsxpag"class="browser-default custom-select" onchange="window.location" name="regsxpag">
                     <option value="1?page=1">1</option>    
                     <option value="" selected>Paginación por defecto 2</option>
@@ -33,29 +33,29 @@
             </style>
             <table class="table table-striped text-center">
                 <tr>
-                    <th>Nombre</th>
-                    <th>Usuario</th>
-                    <th>Email</th>
-                    <th>rol</th>
-                    <th>Fecha modificación</th>
+                    <th>Id</th>
+                    <th>Id remitente</th>
+                    <th>Id destinatario</th>
+                    <th>Mensaje</th>
+                    <th>Fecha</th>
                     @if(Auth::user()->rol=="administrador")
                     <th>Operaciones</th>
                     @endif
                 </tr>
-                @foreach ($users as $user)
+                @foreach ($mensajes as $mensaje)
                 <tr>
-                    <td class="tde">{{$user->name}}</td>
-                    <td class="tde">{{$user->usuario}}</td>
-                    <td class="tde">{{$user->email}}</td>
-                    <td class="tde">{{$user->rol}}</td>
-                    <td class="tde">{{$user->updated_at}}</td>
+                    <td class="tde">{{$mensaje->id}}</td>
+                    <td class="tde">{{$mensaje->id_usuario_e}}</td>
+                    <td class="tde">{{$mensaje->id_usuario_r}}</td>
+                    <td class="tde">{{$mensaje->texto}}</td>
+                    <td class="tde">{{$mensaje->created_at}}</td>
                     @if(Auth::user()->rol=="administrador")
-                    <td><a class="btn btn-info" href="{{route("user.detalles",["id"=>$user->id])}}">Detalles</a> <a  class="btn btn-success " href="{{route("user.editarUsuario",["id"=>$user->id])}}">  Editar  </a> <a class="btn btn-danger" href="{{route("user.eliminar",["id"=>$user->id])}}" onclick="return confirm('Are you sure?')">Eliminar</a></td>
+                    <td><a class="btn btn-info" href="{{route("mensajes.detalles",["id"=>$mensaje->id])}}">Detalles</a><a class="btn btn-danger" href="{{route("mensajes.eliminar",["id"=>$mensaje->id])}}" onclick="return confirm('Are you sure?')">Eliminar</a></td>
                     @endif
                 </tr>
                 @endforeach
             </table>
-            {{$users->links()}}
+            {{$mensajes->links()}}
         </div>
     </div>
 </div>

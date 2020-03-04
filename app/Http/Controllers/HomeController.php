@@ -32,12 +32,14 @@ class HomeController extends Controller
         return view("home");
     }
 
+    
     protected function login($id){
+
         DB::table('logs')->insert(array('id_usuario'=>$id,
         'descripcion'=>'Se ha logueado',
         'created_at' =>date('Y-m-d H:i:s') )
-    );
+        );
     
-    return view('home');
+        return view('home');
     }
 }

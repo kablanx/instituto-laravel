@@ -12,9 +12,7 @@ use Illuminate\Support\Facades\DB;
 class IncidenciaController extends Controller
 {
     //
-    public function __contructe(){ // Solo pueden los usuarios identificados.
-        $this->middleware('auth');
-    }
+    
 
     public function crear(){
         return view('incidencias.crear');
@@ -125,5 +123,11 @@ class IncidenciaController extends Controller
         
         \Session::flash("status", "Incidencia editado correctamente!!");
         return redirect()->action("IncidenciaController@listado",["regsxpag" => 2]);
+    }
+
+    public function imprimirPDF(){
+        $incidencias = Incidencia::all();
+        $pdf = \PDF::loadView('incidencias.pdf', ['incidencias' => $incidencias])->setPaper("a4", "portrait");
+        return $pdf->stream('incidencias.pdf');
     }
 }

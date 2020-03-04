@@ -147,5 +147,10 @@ class UserController extends Controller
         \Session::flash("status", "Usuario borrado correctamente!");
         return redirect()->action("UserController@listado",["regsxpag" => 2]);
     }
-    
+
+    public function imprimirPDF(){
+        $users = User::all();
+        $pdf = \PDF::loadView('user.pdf', ['users' => $users])->setPaper("a4", "landscape");
+        return $pdf->stream('user.pdf');
+    }
 }

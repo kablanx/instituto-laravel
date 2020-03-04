@@ -9,8 +9,8 @@
                 <option value="1?page=1">1</option>    
                 <option value="" selected>Paginación por defecto 2</option>
                 {{-- <option value="2" onchange="header('Location: practica-laravel.devel/user/listado/1?page=1');" selected>2</option> --}}
-                <option value="2?page=1">3</option>
-                <option value="3?page=1">5</option>
+                <option value="3?page=1">3</option>
+                <option value="5?page=1">5</option>
         </select>
         </div>
 
@@ -37,7 +37,7 @@
                     <td>{{$incidencia->gravedad}}</td>
                     <td>{{$incidencia->updated_at}}</td>
                     @if(Auth::user()->rol=="administrador")
-                    <td><a href="{{route("incidencias.detalles",["id"=>$incidencia->id])}}">Detalles</a> <a href="{{route("incidencias.editarIncidencia",["id"=>$incidencia->id])}}">Editar</a> <a href="{{route("incidencias.eliminar",["id"=>$incidencia->id])}}" onclick="return confirm('Are you sure?')">Eliminar</a></td>
+                    <td><a class="btn btn-info " href="{{route("incidencias.detalles",["id"=>$incidencia->id])}}">Detalles</a> <a class="btn btn-success" href="{{route("incidencias.editarIncidencia",["id"=>$incidencia->id])}}">Editar</a> <a class="btn btn-danger" href="{{route("incidencias.eliminar",["id"=>$incidencia->id])}}" onclick="return confirm('Are you sure?')">Eliminar</a></td>
                     @endif
                 </tr>
                 @endforeach

@@ -23,4 +23,9 @@ class logController extends Controller
         die(); */
         return view("logs.listado", ['logs'=>$logs]);
     }
+    public function imprimirPDF(){
+        $logs = Log::all();
+        $pdf = \PDF::loadView('logs.pdf', ['logs' => $logs])->setPaper("a4", "portrait");
+        return $pdf->stream('logs.pdf');
+    }
 }
