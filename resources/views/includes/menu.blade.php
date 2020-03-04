@@ -35,7 +35,6 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a href="{{ route('mensajes.bandeja', ['id'=>Auth::user()->id])}}" class="dropdown-item">Bandeja de entrada</a>
                         <a href="{{ route('mensajes.listado', ['regsxpag'=>2])}}" class="dropdown-item">Listado</a>
-                        <a href="{{ route('mensajes.crear')}}" class="dropdown-item">Crear</a>
                         <a href="{{route('mensajes.pdf')}}" class="dropdown-item">PDF</a>
                     </div>
                 </li>

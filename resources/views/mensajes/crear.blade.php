@@ -18,6 +18,7 @@
                 <form action="{{ route('mensajes.save') }}" method="post">
                         @csrf
                         
+                        <input type="hidden" name="id_usuario_r" value="{{ $id_usuario_r }}">
                         <div class="form-group row">
 
                             <label for="mensaje " class="col-md-3 col-form-label text-md-right">Mensaje</label>

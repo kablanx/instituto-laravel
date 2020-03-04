@@ -21,8 +21,8 @@ class MensajeController extends Controller
         $mensaje=array_first(DB::select("select * from mensajes where id=:id", ["id"=>$id] ));
         return view("mensajes.detalle", ["mensaje"=>$mensaje]);
     }
-    public function crear(){
-        return view('mensajes.crear');
+    public function crear($id){
+        return view('mensajes.crear', ["id_usuario_r"=>$id]);
     }
     public function save(Request $request){
         /* var_dump($request);
@@ -34,6 +34,7 @@ class MensajeController extends Controller
             'mensaje' => 'required|max:255',
         ]);
 
+        $id_usuario_r=$request->input('id_usuario_r');
         $texto = $request->input('mensaje');
         $fecha = new \DateTime();
         $fecha->format('d-m-Y H:i:s');
@@ -41,7 +42,7 @@ class MensajeController extends Controller
         
         
         $mensaje->id_usuario_e=\Auth::user()->id;
-        $mensaje->id_usuario_r=\Auth::user()->id;
+        $mensaje->id_usuario_r=$id_usuario_r;
         $mensaje->texto=$texto;
         
         /* var_dump($incidencia);
@@ -54,7 +55,7 @@ class MensajeController extends Controller
             'created_at' =>date('Y-m-d H:i:s') )
             );
         }
-        return redirect()->route("mensajes.crear")
+        return redirect()->route("user.listado")
         ->with(["message"=>"Mensaje enviado correctamente!"]);
     }
 

@@ -25,6 +25,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/inicio', 'HomeController@inicio')->name('inicio');
 
+// He tocao aqui
+Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => 'auth'], function () {
 // Rutas del controlador Usuario
@@ -54,7 +56,7 @@ Route::get("/logs/pdf", "LogController@imprimirPDF")->name("logs.pdf");
 
 // Mensajes
 Route::get("/mensajes/listado/{regsxpag}", "MensajeController@listado")->name("mensajes.listado");
-Route::get('/mensajes/crear', 'MensajeController@crear')->name('mensajes.crear');
+Route::get('/mensajes/crear/{id}', 'MensajeController@crear')->name('mensajes.crear');
 Route::post('/mensajes/save', 'MensajeController@save')->name('mensajes.save');
 Route::get("/mensajes/detalles/{id}", "MensajeController@detalle")->name("mensajes.detalles");
 Route::get("/mensajes/eliminar/{id}", "MensajeController@eliminar")->name("mensajes.eliminar");

@@ -49,9 +49,16 @@
                     <td class="tde">{{$user->email}}</td>
                     <td class="tde">{{$user->rol}}</td>
                     <td class="tde">{{$user->updated_at}}</td>
-                    @if(Auth::user()->rol=="administrador")
-                    <td><a class="btn btn-info" href="{{route("user.detalles",["id"=>$user->id])}}">Detalles</a> <a  class="btn btn-success " href="{{route("user.editarUsuario",["id"=>$user->id])}}">  Editar  </a> <a class="btn btn-danger" href="{{route("user.eliminar",["id"=>$user->id])}}" onclick="return confirm('Are you sure?')">Eliminar</a></td>
-                    @endif
+                    
+                    <td>
+                        @if(Auth::user()->rol=="administrador")
+                        <a class="btn btn-info" href="{{route("user.detalles",["id"=>$user->id])}}">Detalles</a>
+                        <a  class="btn btn-success " href="{{route("user.editarUsuario",["id"=>$user->id])}}">  Editar  </a>
+                        <a class="btn btn-danger" href="{{route("user.eliminar",["id"=>$user->id])}}" onclick="return confirm('Are you sure?')">Eliminar</a>
+                        @endif
+                        <a class="btn btn-info" href="{{route("mensajes.crear",["id"=>$user->id])}}">Enviar mensaje</a>
+                    </td>
+                    
                 </tr>
                 @endforeach
             </table>
